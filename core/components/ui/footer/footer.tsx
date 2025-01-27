@@ -96,20 +96,20 @@ const Footer = ({
             </p>
 
             <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
-              Monday-friday 6am -5pm PST
+            Monday-Friday 6am - 5pm PST
             </p>
-            <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
-              (####) ###-###
+            <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-[#80C5DA]">
+            (###) ###-####
             </p>
             <h3 className="footerheading text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
               {' '}
               CHAT HOURS{' '}
             </h3>
             <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
-              Monday-Friday 6am-4pm PST
+            Monday - Friday 6am - 4pm PST
             </p>
             <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
-              Saturday & Sunday 6am-3pm PST
+            Saturday & Sunday 6am - 3pm PST
             </p>
           </CustomLink>
         )}
@@ -205,20 +205,20 @@ const Footer = ({
             </p>
 
             <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
-              Monday-friday 6am -5pm PST
+            Monday-Friday 6am - 5pm PST
             </p>
-            <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
-              (####) ###-###
+            <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-[#80C5DA]">
+            (###) ###-####
             </p>
             <h3 className="footerheading text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
               {' '}
               CHAT HOURS{' '}
             </h3>
             <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
-              Monday-Friday 6am-4pm PST
+            Monday - Friday 6am - 4pm PST
             </p>
             <p className="Footertxt text-left text-[14px] font-normal leading-[32px] tracking-[0.25px] text-white">
-              Saturday & Sunday 6am-3pm PST
+            Saturday & Sunday 6am - 3pm PST
             </p>
           </CustomLink>
         )}

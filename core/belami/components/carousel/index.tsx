@@ -144,21 +144,21 @@ function CarouselButtons({ className, ...rest }: React.HTMLAttributes<HTMLDivEle
     >
       <button
         type="button"
-        className="bg-brand-600 absolute top-1/2 left-4 z-10 -mt-10 w-8 h-8 text-white inline-flex items-center justify-center rounded-full disabled:hidden disabled:text-gray-400 ring-primary transition-colors duration-300 focus-visible:outline-0 focus-visible:ring-2 disabled:pointer-events-none"
+        className="bg-brand-600 absolute top-1/2 left-4 z-10 -mt-[4.5rem] w-[50px] h-[50px] text-white inline-flex items-center justify-center rounded-full disabled:hidden disabled:text-gray-400 ring-primary transition-colors duration-300 focus-visible:outline-0 focus-visible:ring-2 disabled:pointer-events-none"
         disabled={!canScrollPrev}
         onClick={scrollPrev}
         title="Previous"
       >
-        <ChevronLeft strokeWidth={3} />
+        <ChevronLeft width={40} height={40} className='w-10 h-10' strokeWidth={3} />
       </button>
       <button
         type="button"
-        className="bg-brand-600 absolute top-1/2 right-4 z-10 -mt-10 w-8 h-8 text-white inline-flex items-center justify-center rounded-full disabled:hidden disabled:text-gray-400 ring-primary transition-colors duration-300 focus-visible:outline-0 focus-visible:ring-2 disabled:pointer-events-none"
+        className="bg-brand-600 absolute top-1/2 right-4 z-10 -mt-[4.5rem] w-[50px] h-[50px] text-white inline-flex items-center justify-center rounded-full disabled:hidden disabled:text-gray-400 ring-primary transition-colors duration-300 focus-visible:outline-0 focus-visible:ring-2 disabled:pointer-events-none"
         disabled={!canScrollNext}
         onClick={scrollNext}
         title="Next"
       >
-        <ChevronRight strokeWidth={3} />
+        <ChevronRight width={40} height={40} className='w-10 h-10' strokeWidth={3} />
       </button>
     </div>
   );
