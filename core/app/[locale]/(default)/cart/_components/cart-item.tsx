@@ -257,7 +257,7 @@ export const CartItem = async ({ brandId, currencyCode, product, deleteIcon, car
       <div className="">
         
         <div className="mb-5 flex flex-col gap-4 p-4 py-4 sm:flex-row">
-          <div className="cart-main-img mx-auto flex-none border border-gray-300 md:mx-0 w-[295px] h-[295px] sm:w-[200px] sm:h-[200px]">
+          <div className="cart-main-img mx-auto flex-none md:mx-0 w-[295px] h-[295px] sm:w-[200px] sm:h-[200px]">
             {product.image?.url ? (
               <BcImage
                 alt={product?.name}

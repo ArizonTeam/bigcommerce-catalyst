@@ -42,7 +42,7 @@ export function Card({ title, image, href, classNames }: CardProps) {
         </figure>
         <h3
           className={clsx(
-            'line-clamp-1 text-base font-normal leading-[32px] tracking-[0.5px] text-foreground text-center',
+            'line-clamp-1 text-base font-normal leading-[32px] tracking-[0.5px] text-foreground text-center flex justify-center gap-[5px]',
             '@4xl:text-foreground',
           )}
         >

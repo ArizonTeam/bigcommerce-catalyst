@@ -106,9 +106,6 @@ export const ChangePasswordForm = () => {
   const [isNewPasswordValid, setIsNewPasswordValid] = useState(true);
   const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
   const [isCurrentPasswordEmpty, setIsCurrentPasswordEmpty] = useState(true);
-  console.log("current",isCurrentPasswordEmpty);
-  console.log("newvalid",isNewPasswordValid)
-  console.log("confirmvalid",isConfirmPasswordValid)
 
   const { setAccountState } = useAccountStatusContext();
 
