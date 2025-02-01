@@ -10,6 +10,7 @@ import { Link } from '~/i18n/routing';
 import { BcImage } from '~/components/bc-image';
 import { PrintOrder } from '../../checkout/print/print-order';
 import { Breadcrumbs as ComponentsBreadcrumbs } from '~/components/ui/breadcrumbs';
+import chevronRight from '~/public/orders/chevronRight.svg';
 
 interface ManageOrderButtonsProps {
   className: string;
@@ -669,7 +670,24 @@ export default function OrderTracking({
       <div className="w-[70%]">
         <div className="my-[2rem] flex flex-col gap-[20px] text-[#353535]">
           <div className="flex flex-col gap-[20px] p-0">
-            <ComponentsBreadcrumbs breadcrumbs={breadcrumbs} />
+          <div className="flex items-center justify-center gap-[5px] xl:hidden">
+            <div>
+              <BcImage
+                src={chevronRight}
+                width={8}
+                height={12}
+                alt="Chevron Right"
+                unoptimized={true}
+              />
+            </div>
+            <Link
+              href="/"
+              className="text-[16px] font-normal leading-[32px] tracking-[0.15px] text-[#006380]"
+            >
+              Account Center
+            </Link>
+          </div>
+          <ComponentsBreadcrumbs className="hidden xl:block" breadcrumbs={breadcrumbs} />
             <div className="text-[24px] font-[400] leading-[32px] text-[#000]">Find Your Order</div>
             <StillNeedContactUs icon={icon} />
             <div className="flex flex-row items-end gap-[20px] p-0">

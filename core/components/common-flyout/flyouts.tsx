@@ -57,7 +57,7 @@ const CommonFlyout: React.FC<FlyoutProps> = ({ triggerLabel, children,isOpen,onO
               </div>
               <Dialog.Description></Dialog.Description>
            
-              <Dialog.Content className="[pointer-events:unset;]">
+              <Dialog.Content className="![pointer-events:unset;]">
                 <div >
               {children}
               </div>

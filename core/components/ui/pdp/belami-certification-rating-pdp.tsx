@@ -108,8 +108,9 @@ const CertificationsAndRatings: React.FC<CertificationsAndRatingsProps> = ({
 
   return (
     <div className="product-certificates mt-6 xl:mt-[2em]">
-      <h2 className="mb-3 text-center text-base text-[#002A37] xl:text-left">{t('title')}</h2>
-
+      <div>
+        <h2 className="mb-3 text-center text-base text-[#002A37] xl:text-left">{t('title')}</h2>
+      </div>
       <div className="certifications md:py-8em mx-auto grid w-[80%] grid-cols-2 items-center gap-4 md:grid-cols-4 lg:w-[100%] lg:grid-cols-4 xl:w-auto xl:grid-cols-3 xl:gap-[0.75rem_0.5em]">
         {allCertifications.map((certification: Certification, index: number) => (
           <div
