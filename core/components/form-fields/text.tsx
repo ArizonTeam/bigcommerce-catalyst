@@ -1,6 +1,6 @@
 import { FragmentOf } from 'gql.tada';
 import { useTranslations } from 'next-intl';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { Field, FieldControl, FieldLabel, FieldMessage, Input } from '~/components/ui/form';
 
@@ -19,9 +19,36 @@ interface TextProps {
   emailExists?: string;
   from?: string;
   textInputValError?:any;
+  inputRefApi?: any;
+  inputApi?:any;
+  countryStates?:any;
+  setStateValueApi?:any;
+  isCountryCode?:boolean;
+  lastChangedField?:string;
+  setTextInputValCheck?:any;
 }
 
-export const Text = ({ defaultValue, field, isValid, name, onChange, type, emailExists, from,textInputValError }: TextProps) => {
+export const Text = ({ defaultValue, field, isValid, name, onChange, type, emailExists, from,textInputValError, inputRefApi, inputApi, countryStates,setStateValueApi, isCountryCode, lastChangedField,setTextInputValCheck}: TextProps) => {
+
+  // Use useEffect to handle the state update
+  useEffect(() => {
+    if (from === 'register-form2' && field.label === 'Address Line 1') {
+      const stateValues = countryStates.map((state: any) => state.name);
+      if (stateValues && inputApi?.state && lastChangedField === 'text') {
+        const isStateValue = stateValues.includes(inputApi.state);
+        if (isStateValue) {
+          setStateValueApi(inputApi.state);
+        }
+      }
+    }
+    if(from === 'register-form2' && (inputApi?.['address-postalCode'] || inputApi?.['address-city'])){
+      setTextInputValCheck((prev:any)=>({
+        ...prev,
+        10: inputApi?.['address-city'] ?? '',
+        13:inputApi?.['address-postalCode'] ?? '',
+      }))
+    }
+  }, [inputApi, countryStates, lastChangedField, setStateValueApi]);
   const t = useTranslations('Components.FormFields.Validation');
 
   const fieldName = FieldNameToFieldId[field.entityId];
@@ -29,7 +56,7 @@ export const Text = ({ defaultValue, field, isValid, name, onChange, type, email
 
   let validateErrorId;
   let isValidateErrorId
-  if(from == 'register-form2'){
+  if(from == 'register-form2' && name !== 'address-address2' ){
     validateErrorId= textInputValError && Object.keys(textInputValError)
     isValidateErrorId = validateErrorId.includes(String(field.entityId))
   } 
@@ -47,6 +74,7 @@ export const Text = ({ defaultValue, field, isValid, name, onChange, type, email
     setEmailError('');
     return true;
   };
+
 
   return (
     <Field className="relative space-y-2" name={name}>
@@ -66,13 +94,34 @@ export const Text = ({ defaultValue, field, isValid, name, onChange, type, email
           onInvalid={from !== 'register-form2' && field.isRequired ? onChange : undefined}
           required={ from !== 'register-form2' ? field.isRequired : false}
           type={type === 'email' ? 'email' : 'text'}
-          placeholder={field.label === 'Address Line 1*' ? 'Start typing your address.' : ''}
+          placeholder={field.label === 'Address Line 1' ? 'Start typing your address.' : ''}
           onBlur={(e) => {
             if (type === 'email') {
               validateEmail((e.target as HTMLInputElement).value);
             }
           }}
           emailExists={emailExists}
+          name={
+            from === 'register-form2' && isCountryCode && (
+              field.label === "Address Line 1" ? "address-address1" :
+              field.label === "Zipcode" ? "address-postalCode" :
+              field.label === "City" ? "address-city" :
+              ""
+            )
+            || name
+          }
+          value={
+            from === 'register-form2' &&  isCountryCode && (
+              field.label === "Address Line 1" ? inputApi?.["address-address1"] ?? '' :
+              field.label === "Zipcode" ? inputApi?.["address-postalCode"] ?? '' :
+              field.label === "City" ? inputApi?.["address-city"] ?? '' :
+              null
+            )
+            || undefined
+          }
+          ref={
+            from === 'register-form2' && isCountryCode && field.label === 'Address Line 1' ? inputRefApi : null
+          }
         />
       </FieldControl>
       <div className="pass2 relative h-7">

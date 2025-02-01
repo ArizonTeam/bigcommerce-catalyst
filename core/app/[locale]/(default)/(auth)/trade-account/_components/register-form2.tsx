@@ -3,6 +3,7 @@
 import { ChangeEvent, useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useLoadScript } from "@react-google-maps/api";
 import { useAccountStatusContext } from '~/app/[locale]/(default)/account/(tabs)/_components/account-status-provider';
 import {
   createFieldName,
@@ -175,6 +176,8 @@ interface RegisterForm2Props {
   };
 }
 
+const libraries: any= ["places"];
+
 export const RegisterForm2 = ({
   addressFields,
   customerFields,
@@ -182,6 +185,84 @@ export const RegisterForm2 = ({
   defaultCountry,
   TradeAddress1,
 }: RegisterForm2Props) => {
+
+  const [lastChangedField, setLastChangedField] = useState<string>('');
+
+  const [countryApi, setCountryApi] = useState( defaultCountry.code.toLowerCase() || '')
+  const [isCountryCode, setIsCountryCode] = useState(false);
+
+   const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string,
+    libraries,
+  });
+
+  const [inputApi, setInputApi] = useState({});
+  const inputRefApi = useRef(null);
+
+  useEffect(() => {
+    if (!isLoaded || loadError || !inputRefApi.current) return;
+
+    const options = {
+      componentRestrictions: { country: countryApi },
+      fields: ["address_components", "geometry"],
+    };
+
+    const autocomplete = new google.maps.places.Autocomplete(inputRefApi.current, options);
+    autocomplete.addListener("place_changed", () => handlePlaceChanged(autocomplete));
+
+    // return () => autocomplete.removeListener("place_changed", handlePlaceChanged);
+  }, [isLoaded, loadError, countryApi, isCountryCode]);
+
+  const handlePlaceChanged = async(address: any) => {
+    if (!isLoaded) return;
+    const place = address.getPlace()
+
+    if (!place || !place.geometry) {
+      setInputApi({});
+      return;
+    }
+    formData(place);
+  };
+
+  const formData = (data: any) => {
+    const addressComponents = data?.address_components;
+
+    const componentMap = {
+      subPremise: "",
+      premise: "",
+      street_number: "",
+      route: "",
+      country: "",
+      postal_code: "",
+      administrative_area_level_2: "",
+      administrative_area_level_1: "",
+    };
+
+    for (const component of addressComponents) {
+      const componentType = component.types[0];
+      if (componentMap.hasOwnProperty(componentType)) {
+        componentMap[componentType] = component.long_name;
+      }
+    }
+
+    const formattedAddress =
+      `${componentMap.subPremise} ${componentMap.premise} ${componentMap.street_number} ${componentMap.route}`.trim();
+    const latitude = data?.geometry?.location?.lat();
+    const longitude = data?.geometry?.location?.lng();
+
+    setInputApi((values) => ({
+      ...values,
+      "address-address1": formattedAddress,
+      country: componentMap.country,
+      "address-postalCode": componentMap.postal_code,
+      "address-city": componentMap.administrative_area_level_2,
+      state: componentMap.administrative_area_level_1,
+      latitude: latitude,
+      longitude: longitude,
+    }));
+  };
+
+
   // Refs and Router
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
@@ -212,13 +293,13 @@ export const RegisterForm2 = ({
   });
   const [textInputValError, setTextInputValError] = useState({});
 
+  const [stateValueApi, setStateValueApi] = useState(stateSelector ? countryStates[0]?.name : '');
   const { setAccountState } = useAccountStatusContext();
   const t = useTranslations('Register.Form');
 
   useEffect(() => {
     router.prefetch('/trade-account/trade-step3/');
   }, [router]);
-
 
   const isValidFormValue = (value: unknown): value is string | Blob => {
     return (
@@ -261,6 +342,15 @@ export const RegisterForm2 = ({
     const fieldId = Number(e.target.id.split('-')[1]);
     setTextInputValid((prev) => ({ ...prev, [fieldId]: true }));
     setTextInputValCheck((prev) => ({ ...prev, [fieldId]: e.target.value }));
+    const {name, value} = e.target;
+    setInputApi((values) => ({ ...values, [name]: value }));
+    setLastChangedField("text")
+  };
+
+  const handleTextInputValidation1 = (e: ChangeEvent<HTMLInputElement>) => {
+    const fieldId = Number(e.target.id.split('-')[1]);
+    setTextInputValid((prev) => ({ ...prev, [fieldId]: true }));
+    setTextInputValCheck((prev) => ({ ...prev, [fieldId]: e.target.value }));
   };
 
   const handleMultiTextValidation = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -290,6 +380,10 @@ export const RegisterForm2 = ({
 
   const handleCountryChange = (value: string) => {
     const selectedCountry = countries.find(({ code }) => code === value);
+    if(selectedCountry?.code){
+      setIsCountryCode(true) 
+    }
+    setCountryApi(selectedCountry?.code.toLowerCase() || defaultCountry.code.toLowerCase())
     if (selectedCountry && selectedCountry.statesOrProvinces) {
       setCountryStates(
         selectedCountry.statesOrProvinces.map((state) => ({
@@ -342,7 +436,7 @@ export const RegisterForm2 = ({
     'Country*': '',
   });
 
-  const handleSelectChange = (field: string, value: string) => {
+  const handleSelectChange = (field: string, value: string) => { 
     setFormValues((prev) => ({
       ...prev,
       [field]: value,
@@ -352,12 +446,12 @@ export const RegisterForm2 = ({
       ...prev,
       [field]: value ? '' : 'This field is required.',
     }));
+    setLastChangedField("state")
   };
 
   // Form submission handler
   const onSubmit = async (formData: FormData) => {
     if (isSubmitting) return;
-
     const stateValue = formData.get('address-stateOrProvince');
     if (!stateValue) {
       setFormStatus({
@@ -420,7 +514,6 @@ export const RegisterForm2 = ({
       setSubmitProgress(0);
     }
   };
-
   // Field Renderer
   const renderField = (field: FormField, isCustomerField: boolean = false) => {
     const fieldId = field.entityId;
@@ -459,7 +552,7 @@ export const RegisterForm2 = ({
                   }}
                   isValid={true}
                   name={fieldName}
-                  onChange={handleTextInputValidation}
+                  onChange={handleTextInputValidation1}
                   from="register-form2"
                 />
               </div>
@@ -478,6 +571,13 @@ export const RegisterForm2 = ({
               onChange={handleTextInputValidation}
               from="register-form2"
               textInputValError={textInputValError}
+              inputRefApi={inputRefApi}
+              inputApi={inputApi}
+              countryStates={countryStates}
+              setStateValueApi={setStateValueApi}
+              isCountryCode={isCountryCode}
+              lastChangedField={lastChangedField}
+              setTextInputValCheck={setTextInputValCheck}
             />
           </FieldWrapper>
         );
@@ -635,6 +735,13 @@ export const RegisterForm2 = ({
                 isValid={stateInputValid}
                 formErrors={formErrors}
                 onSelectChange={handleSelectChange}
+                stateValueApi={stateValueApi}
+                setStateValueApi={setStateValueApi}
+                from='register-form2'
+                isCountryCode={isCountryCode}
+                lastChangedField={lastChangedField}
+                inputApi={inputApi}
+                setFormValues={setFormValues}
               />
             </FieldWrapper>
           );
