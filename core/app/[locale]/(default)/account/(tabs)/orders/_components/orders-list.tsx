@@ -33,7 +33,7 @@ const ManageOrderButtons = ({
         <Button
           aria-label={t('trackOrder')}
           asChild
-          className="flex min-h-[42px] w-full flex-row items-center justify-center rounded-[3px] bg-[#008BB7] p-[5px_10px] text-[14px] font-medium uppercase leading-[32px] tracking-[1.25px] text-[#fff] "
+          className="flex min-h-[42px] w-full flex-row items-center justify-center rounded-[3px] bg-[#008BB7] p-[5px_10px] text-[14px] font-medium uppercase leading-[32px] tracking-[1.25px] text-[#fff]"
           variant="secondary"
         >
           <Link href={{ pathname: orderTrackingUrl }}>{t('trackOrder')}</Link>
@@ -53,7 +53,7 @@ const ManageOrderButtons = ({
         <Button
           aria-label={t('returnOrder')}
           asChild
-          className="flex min-h-[42px] w-full flex-row items-center justify-center rounded-[3px] border border-[#B4DDE9] bg-white p-[5px_10px] text-[14px] font-medium uppercase leading-[32px] tracking-[1.25px] text-[#002A37] "
+          className="flex min-h-[42px] w-full flex-row items-center justify-center rounded-[3px] border border-[#B4DDE9] bg-white p-[5px_10px] text-[14px] font-medium uppercase leading-[32px] tracking-[1.25px] text-[#002A37]"
           variant="secondary"
         >
           <Link href={{ pathname: '' }}>{t('returnOrder')}</Link>
@@ -110,7 +110,7 @@ const OrderDetails = ({
       </div>
       <div className="flex w-full flex-col items-start gap-[15px] p-[0px_20px]">
         <div className="flex w-full flex-col justify-between sm:flex-row">
-          <div className="sm:justify-[unset] sm:flex flex-row items-center justify-center gap-[5px] text-[16px] font-normal leading-[32px] tracking-[0.15px] inline text-center">
+          <div className="sm:justify-[unset] inline flex-row items-center justify-center gap-[5px] text-center text-[16px] font-normal leading-[32px] tracking-[0.15px] sm:flex">
             <span>
               {format.dateTime(new Date(orderDate), {
                 year: 'numeric',
@@ -124,7 +124,7 @@ const OrderDetails = ({
               {orderId}
             </span>
           </div>
-          <div className="sm:justify-[unset] sm:flex flex-row items-center justify-center gap-[5px] text-[16px] font-normal leading-[32px] tracking-[0.15px] inline text-center [&>span]:inline [&>svg]:inline [&>svg]:ml-[5px] [&>svg]:sm:ml-0 [&>button]:inline [&>button]:ml-[5px] [&>button]:sm:ml-0">
+          <div className="sm:justify-[unset] inline flex-row items-center justify-center gap-[5px] text-center text-[16px] font-normal leading-[32px] tracking-[0.15px] sm:flex [&>button]:ml-[5px] [&>button]:inline [&>button]:sm:ml-0 [&>span]:inline [&>svg]:ml-[5px] [&>svg]:inline [&>svg]:sm:ml-0">
             <span>
               {t('orderTotal')}:
               {format.number(orderPrice.value, {
@@ -181,7 +181,7 @@ export const OrdersList = ({ customerOrders }: OrdersListProps) => {
             />
             <div className="flex w-full flex-col items-center justify-between gap-5 p-[0px_20px_20px_20px] xl:flex-row xl:gap-0">
               <div
-                className="flex w-full flex-1 flex-row items-center gap-[40px] p-0 xl:w-[unset] has-[.product-count-1]:flex-col sm:has-[.product-count-1]:flex-row"  //Here i want to write the css if product count is one then change the background color
+                className="flex w-full flex-1 flex-row items-center gap-[40px] p-0 has-[.product-count-1]:flex-col sm:has-[.product-count-1]:flex-row xl:w-[unset]" //Here i want to write the css if product count is one then change the background color
                 key={`order-${entityId}`}
               >
                 {(shippingConsignments ?? []).map(({ lineItems }) => {
@@ -190,7 +190,7 @@ export const OrdersList = ({ customerOrders }: OrdersListProps) => {
                     imageClass = '';
                   let productCount = 1;
                   let width = 150,
-                  height = 150;
+                    height = 150;
                   if (itemsCount >= 3) {
                     className = 'flex h-[150px] w-[150px] flex-row flex-wrap gap-[10px] py-[5px]';
                     imageClass = 'h-[65px] w-[70px]';
@@ -198,11 +198,13 @@ export const OrdersList = ({ customerOrders }: OrdersListProps) => {
                     height = 65;
                     productCount = 4;
                   } else if (itemsCount == 2) {
-                    className = 'flex h-[150px] w-[150px] [&>img]:w-[70px] xl:[&>img]:w-[150px] xl:w-[310px] flex-row gap-[10px]';
+                    className =
+                      'flex h-[150px] w-[150px] [&>img]:w-[70px] xl:[&>img]:w-[150px] xl:w-[310px] flex-row gap-[10px]';
                     width = 150;
                     productCount = 2;
                   } else if (itemsCount == 1) {
-                    className = 'product-count-1 flex h-[150px] sm:w-[150px] flex-row gap-[10px] w-full';
+                    className =
+                      'product-count-1 flex h-[150px] sm:w-[150px] flex-row gap-[10px] w-full';
                     width = 150;
                   }
                   return (
