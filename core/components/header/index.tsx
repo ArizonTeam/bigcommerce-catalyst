@@ -88,13 +88,12 @@ export const Header = async ({ cart }: Props) => {
           <Dropdown
             getCustomerData={getCustomerData as any}
             items={[
-              { href: '/support/faqs', label: 'Existing Order' },
-              { href: '/support/contact', label: 'Track My Order' },
-              { href: '/support/contact', label: 'Replace Items' },
-              { href: '/support/contact', label: 'Gift Certificates' },
-              { href: '/support/contact', label: 'Visit Our Help Center' },
-              { href: '/support/contact', label: 'New Orders' },
-              { href: '/support/contact', label: 'Contact ' },
+              { href: '/support/faqs', label: 'Existing Order', classNameCss:'block font-normal text-[16px] leading-[32px] tracking-[0.15px] text-[#006380]'},
+              { href: '/support/contact', label: 'Track My Order', classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] text-[#353535]'},
+              { href: '/support/contact', label: 'Replace Items', classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] text-[#353535]'},
+              { href: '/support/contact', label: 'Visit Our Help Center', classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] text-[#353535] mb-[5px]'},
+              { href: '/support/contact', label: 'New Orders', classNameCss:'block font-normal text-[16px]leading-[32px] tracking-[0.15px] text-[#006380] '},
+              { href: '/support/contact', label: 'Contact ', classNameCss:'block font-normal text-[14px] leading-[10px] tracking-[0.25px] underline text-[#008BB7]'},
             ]}
             trigger={
               <Button
@@ -122,22 +121,23 @@ export const Header = async ({ cart }: Props) => {
           {/* Account Dropdown */}
           <Dropdown
             getCustomerData={getCustomerData as any}
+            from='account-dropdown'
             items={
               customerAccessToken
                 ? [
-                    { href: '/account', label: 'My Account' },
-                    { href: '/account/favorites', label: 'Favorites' },
-                    { href: '/account/purchase-history', label: 'Purchase History' },
-                    { href: '/account/finance', label: 'Finance' },
+                    // { href: '/account', label: 'My Account' },
+                    { href: '/account/', label: 'Account Center', classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] color-[#353535]'},
+                    { href: '/account/wishlists', label: 'Favourites & Lists', classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] color-[#353535]'},
+                    { href: '/account/orders', label: 'Orders', classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] color-[#353535]'},
                     { action: logout, name: 'Sign Out' },
                   ]
                 : [
-                    { href: '/login', label: 'Account' },
-                    { href: '/login', label: 'My Account' },
-                    { href: '/login', label: 'Favorites' },
-                    { href: '/login', label: 'Purchase History' },
-                    { href: '/login', label: 'Financing' },
-                    { href: '/login', label: 'Login' },
+                    { href: '/login', label: 'Account', classNameCss:'block font-normal text-[16px] leading-[32px] tracking-[0.25px] text-[#006380] text-center'},
+                    { href: '/login', label: 'Account Center', classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] color-[#353535]'},
+                    { href: '/login', label: 'Favorites & Lists', classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] color-[#353535]'},
+                    { href: '/login', label: 'Orders', classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] color-[#353535]'},
+                    { href: '/login', label: 'LOG IN', classNameCss:'flex flex-row justify-center items-center p-[0px_8px] gap-[5px] border border-[#b4dde9] rounded-[3px] h-[32px] font-[500] text-[14px] leading-[32px] text-[#002a37] tracking-[1.25px]'},
+                    { href: '/register', label: <span>New? <span className='font-[600] underline'>Create Account</span></span>, classNameCss:'block font-normal text-[14px] leading-[24px] tracking-[0.25px] text-[#008BB7]'},
                   ]
             }
             trigger={
