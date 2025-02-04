@@ -25,6 +25,9 @@ import { imageManagerImageUrl } from '~/lib/store-assets';
 
 import { getSessionUserDetails } from '~/auth';
 import { get } from 'http';
+
+import personIcon from '~/public/accountIcons/person.svg';
+import wavingHandIcon from '~/public/home/handWavingIcon.svg'
 interface Props {
   cart: ReactNode;
 }
@@ -106,7 +109,7 @@ export const Header = async ({ cart }: Props) => {
                   className="mr-2"
                   height={28}
                   priority={true}
-                  src={imageManagerImageUrl('waving-hand-1-.png', '20w')}
+                  src={wavingHandIcon}
                   width={28}
                   unoptimized={true}
                 />
@@ -148,7 +151,7 @@ export const Header = async ({ cart }: Props) => {
                   alt="an assortment of brandless products against a blank background"
                   height={16}
                   priority={true}
-                  src={imageManagerImageUrl('account-icon.png', '20w')}
+                  src={personIcon}
                   width={16}
                   unoptimized={true}
                 />
